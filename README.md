@@ -8,7 +8,7 @@ API REST construida con Java 21, Spring Boot, Spring Data JPA y H2.
 - `developer` parte de `main` y contiene el desarrollo de la épica.
 - Los cambios de `developer` se revisan y validan antes de integrarlos en `main`.
 - El workflow de GitHub Actions ejecuta compilación y pruebas en cada push y Pull Request hacia `main` o `developer`.
-- La integración de `developer` en `main` requiere aprobación explícita; el workflow no hace merges automáticos.
+- No hay merges automáticos: integra `developer` en `main` solo después de revisar los cambios y recibir tu aprobación.
 
 ## Requisitos
 
