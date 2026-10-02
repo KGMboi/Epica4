@@ -5,10 +5,11 @@ API REST construida con Java 21, Spring Boot, Spring Data JPA y H2.
 ## Ramas y flujo de trabajo
 
 - `main` contiene la base funcional y estable del proyecto.
-- `developer` parte de `main` y contiene el desarrollo de la épica.
-- Los cambios de `developer` se revisan y validan antes de integrarlos en `main`.
-- El workflow de GitHub Actions ejecuta compilación y pruebas en cada push y Pull Request hacia `main` o `developer`.
-- La integración de `developer` en `main` requiere aprobación explícita; el workflow no hace merges automáticos.
+- `registrar` contiene la historia de registro de productos.
+- `consultar` contiene la historia de consulta del catálogo.
+- `developer` se conserva como rama de integración existente.
+- El workflow de GitHub Actions ejecuta compilación y pruebas en cada push y Pull Request hacia `main`, `developer`, `registrar` o `consultar`.
+- No hay merges automáticos: integra cambios solo después de revisar las ramas y recibir autorización.
 
 ## Requisitos
 
@@ -33,3 +34,9 @@ En Windows:
 ```
 
 La base H2 en memoria se inicializa al arrancar. El endpoint de estado es `GET /api/health`.
+
+## Historia: registrar productos
+
+- `POST /api/products`: registra un producto (`name`, `description`, `category`, `basePrice`).
+
+La creación responde `201 Created`; los datos inválidos responden `400 Bad Request`.

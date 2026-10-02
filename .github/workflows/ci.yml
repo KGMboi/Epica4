@@ -5,10 +5,14 @@ on:
     branches:
       - main
       - developer
+      - registrar
+      - consultar
   pull_request:
     branches:
       - main
       - developer
+      - registrar
+      - consultar
 
 permissions:
   contents: read
