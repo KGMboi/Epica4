@@ -33,3 +33,11 @@ En Windows:
 ```
 
 La base H2 en memoria se inicializa al arrancar. El endpoint de estado es `GET /api/health`.
+
+## API de la épica
+
+- `POST /api/products`: registra un producto (`name`, `description`, `category`, `basePrice`).
+- `GET /api/products`: consulta el catálogo completo.
+- `POST /api/quotes`: registra una solicitud (`productId`, `customerName`, `customerEmail`, `quantity` y `details` opcional). Las solicitudes nuevas quedan en estado `PENDING`.
+
+Las operaciones de creación responden `201 Created`; los datos inválidos responden `400 Bad Request` y las referencias a productos inexistentes responden `404 Not Found`.
