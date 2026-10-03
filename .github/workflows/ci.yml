@@ -7,12 +7,14 @@ on:
       - developer
       - registrar
       - consultar
+      - QA
   pull_request:
     branches:
       - main
       - developer
       - registrar
       - consultar
+      - QA
 
 permissions:
   contents: read
