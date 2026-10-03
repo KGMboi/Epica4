@@ -7,12 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -55,5 +57,29 @@ class ProductCatalogTest {
                 .andExpect(jsonPath("$[0].basePrice").value(12500.00))
                 .andExpect(jsonPath("$[1].name").value("Mouse"))
                 .andExpect(jsonPath("$[1].basePrice").value(599.50));
+    }
+
+    @Test
+    void returnsProductCreatedThroughTheApi() throws Exception {
+        mockMvc.perform(post("/api/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "name": "Monitor",
+                                  "description": "Monitor para oficina",
+                                  "category": "Computo",
+                                  "basePrice": 3499.99
+                                }
+                                """))
+                .andExpect(status().isCreated());
+
+        mockMvc.perform(get("/api/products"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].name").value("Monitor"))
+                .andExpect(jsonPath("$[0].description").value("Monitor para oficina"))
+                .andExpect(jsonPath("$[0].category").value("Computo"))
+                .andExpect(jsonPath("$[0].basePrice").value(3499.99));
     }
 }
