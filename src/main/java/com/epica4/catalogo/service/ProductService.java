@@ -27,7 +27,7 @@ public class ProductService {
     }
 
     public List<ProductResponse> findAll() {
-        return productRepository.findAll().stream()
+        return productRepository.findAllByOrderByIdAsc().stream()
                 .map(ProductResponse::from)
                 .toList();
     }

@@ -5,10 +5,16 @@ on:
     branches:
       - main
       - developer
+      - registrar
+      - consultasBranch
+      - QA
   pull_request:
     branches:
       - main
       - developer
+      - registrar
+      - consultasBranch
+      - QA
 
 permissions:
   contents: read
