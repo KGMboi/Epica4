@@ -1,5 +1,12 @@
 # Épica 4: Catálogo de productos y solicitudes de cotización
 
+Equipo:
+1.-Derek Enrique Siqueiros Heredia
+2.-Jesus Gerardo Ojeda Martínez
+3.-Daniel Leví Encinas Estrada
+4.-Kevin García Meza
+5.-Susana Gallegos Corrales
+
 API REST construida con Java 21, Spring Boot, Spring Data JPA y H2.
 
 ## Ramas y flujo de trabajo
