@@ -19,14 +19,14 @@ class ProductRegistrationTest {
     private MockMvc mockMvc;
 
     @Test
-    void registersProductWithRequiredFields() throws Exception {
+    void registersProductAndTrimsTextFields() throws Exception {
         mockMvc.perform(post("/api/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                  "name": "Laptop",
-                                  "description": "Laptop para oficina",
-                                  "category": "Computo",
+                                  "name": "  Laptop  ",
+                                  "description": "  Laptop para oficina  ",
+                                  "category": "  Computo  ",
                                   "basePrice": 12500.00
                                 }
                                 """))
@@ -39,15 +39,60 @@ class ProductRegistrationTest {
     }
 
     @Test
-    void rejectsProductWithBlankNameOrNonPositivePrice() throws Exception {
+    void rejectsBlankRequiredFields() throws Exception {
         mockMvc.perform(post("/api/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
                                   "name": " ",
+                                  "description": "",
+                                  "category": " ",
+                                  "basePrice": 12500.00
+                                }
+                                """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void rejectsZeroPrice() throws Exception {
+        mockMvc.perform(post("/api/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "name": "Laptop",
                                   "description": "Laptop para oficina",
                                   "category": "Computo",
                                   "basePrice": 0
+                                }
+                                """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void rejectsPriceWithMoreThanTwoDecimalPlaces() throws Exception {
+        mockMvc.perform(post("/api/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "name": "Laptop",
+                                  "description": "Laptop para oficina",
+                                  "category": "Computo",
+                                  "basePrice": 12500.123
+                                }
+                                """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void rejectsPriceExceedingDatabasePrecision() throws Exception {
+        mockMvc.perform(post("/api/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "name": "Laptop",
+                                  "description": "Laptop para oficina",
+                                  "category": "Computo",
+                                  "basePrice": 10000000000.00
                                 }
                                 """))
                 .andExpect(status().isBadRequest());
