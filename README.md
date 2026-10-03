@@ -39,4 +39,14 @@ La base H2 en memoria se inicializa al arrancar. El endpoint de estado es `GET /
 
 - `POST /api/products`: registra un producto (`name`, `description`, `category`, `basePrice`).
 
-La creación responde `201 Created`; los datos inválidos responden `400 Bad Request`.
+La creación responde `201 Created`; los datos inválidos responden `400 Bad Request`. El nombre, la descripción y la categoría son obligatorios. El precio debe ser positivo, tener como máximo 10 dígitos enteros y 2 decimales.
+
+### Prueba manual con Postman
+
+1. Desde la carpeta del proyecto, inicia la API con `.\mvnw.cmd spring-boot:run`.
+2. En Postman, importa `postman/epica4-product-registration.postman_collection.json`.
+3. Confirma que la variable `baseUrl` de la colección apunte a `http://localhost:8080`.
+4. Ejecuta `Registrar producto valido`; debe responder `201 Created` con un ID y los datos del producto.
+5. Ejecuta `Rechazar producto con precio cero`; debe responder `400 Bad Request`.
+
+Cada solicitud incluye pruebas que Postman muestra en la pestaña **Test Results**.

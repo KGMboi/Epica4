@@ -1,0 +1,116 @@
+{
+  "info": {
+    "_postman_id": "d8af470d-bbb0-4c85-ae10-c5ae1ad4456d",
+    "name": "Epica4 - Registro de productos",
+    "description": "Pruebas manuales del endpoint POST /api/products.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ],
+  "item": [
+    {
+      "name": "Registrar producto valido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Teclado mecanico\",\n  \"description\": \"Teclado USB para oficina\",\n  \"category\": \"Computo\",\n  \"basePrice\": 899.90\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('La respuesta es 201 Created', function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test('El producto creado incluye sus datos y un ID', function () {",
+              "  const product = pm.response.json();",
+              "  pm.expect(product.id).to.be.a('number');",
+              "  pm.expect(product.name).to.eql('Teclado mecanico');",
+              "  pm.expect(product.category).to.eql('Computo');",
+              "  pm.expect(product.basePrice).to.eql(899.9);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rechazar producto con precio cero",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Producto invalido\",\n  \"description\": \"Debe ser rechazado\",\n  \"category\": \"Prueba\",\n  \"basePrice\": 0\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "products"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('La respuesta es 400 Bad Request', function () {",
+              "  pm.response.to.have.status(400);",
+              "});",
+              "",
+              "pm.test('La respuesta explica el error de validacion', function () {",
+              "  pm.expect(pm.response.json().message).to.be.a('string').and.not.empty;",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
