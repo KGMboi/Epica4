@@ -6,6 +6,8 @@ import com.epica4.catalogo.entity.Product;
 import com.epica4.catalogo.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -22,5 +24,11 @@ public class ProductService {
                 request.category().trim(),
                 request.basePrice());
         return ProductResponse.from(productRepository.save(product));
+    }
+
+    public List<ProductResponse> findAll() {
+        return productRepository.findAllByOrderByIdAsc().stream()
+                .map(ProductResponse::from)
+                .toList();
     }
 }

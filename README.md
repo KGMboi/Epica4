@@ -41,6 +41,10 @@ La base H2 en memoria se inicializa al arrancar. El endpoint de estado es `GET /
 
 La creación responde `201 Created`; los datos inválidos responden `400 Bad Request`. El nombre, la descripción y la categoría son obligatorios. El precio debe ser positivo, tener como máximo 10 dígitos enteros y 2 decimales.
 
+## Historia: consultar el catálogo
+
+- `GET /api/products`: consulta el listado completo, ordenado por ID ascendente. Si no hay productos, responde `200 OK` con un arreglo vacío (`[]`). Cada elemento incluye `id`, `name`, `description`, `category` y `basePrice`.
+
 ### Prueba manual con Postman
 
 1. Desde la carpeta del proyecto, inicia la API con `.\mvnw.cmd spring-boot:run`.
